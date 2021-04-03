@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text">
+<h1>Журнал работ</h1>
+</div>
+<style>
+   .text {
+    text-align:  center;
+   }
+</style>
+{% for item in jobs%}
+<div class="col-md6 border rounded">
+    <h2>Действие # {{item.id}}</h2>
+    <table>
+      <colgroup>
+        <col span="4" style="background:yellow">
+        <col style="background-color:LightCyan">
+      </colgroup>
+      <tr>
+        <th>Название работы</th>
+        <th>Фамилия и имя ответственного</th>
+         <th>Продолжительность в часах</th>
+         <th>Список id команды</th>
+         <th>Завершена или нет</th>
+      </tr>
+      <tr>
+        <td>{{ item.job }}</td>
+        <td>{{ item.team_leader }}</td><td>{{ item.work_size }}</td><td>{{ item.collaborators }}</td><td>{{ item.is_finished }}</td>
+      </tr>
+    </table>
+    {% if current_user.is_authenticated and current_user == item.user %}
+    <div>
+        <a href="/news/{{ item.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}
